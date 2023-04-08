@@ -1,0 +1,196 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+  }
+}#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// Define a struct to hold customer information
+struct Customer
+{
+    string name;
+    float due;
+    string mobile_number;
+};
+
+// Define a vector to store all customers
+vector<Customer> customers;
+
+// Function to add a new customer
+void add_customer()
+{
+    // Create a new customer
+    Customer new_customer;
+
+    // Get customer information from user input
+    cout << "Enter customer name: ";
+    cin >> new_customer.name;
+    cout << "Enter due amount: ";
+    cin >> new_customer.due;
+
+    while (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+        cin >> new_customer.due;
+    }
+
+    cout << "Enter mobile number: ";
+    cin >> new_customer.mobile_number;
+
+    // Add new customer to the vector
+    customers.push_back(new_customer);
+
+    cout << "Customer added successfully!\n";
+}
+
+// Function to update payment amount for a customer
+void update_payment()
+{
+    string name;
+    float payment;
+
+    cout << "Enter customer name: ";
+    cin >> name;
+    cout << "Enter payment amount: ";
+    cin >> payment;
+
+    // Loop through all customers and find the one with the matching name
+    for (int i = 0; i < customers.size(); i++)
+    {
+        if (customers[i].name == name)
+        {
+            // Update due amount for the customer
+            customers[i].due -= payment;
+
+            cout << "Payment updated successfully!\n";
+            return;
+        }
+    }
+
+    cout << "Customer not found. Try again.\n";
+}
+
+// Function to print all customer names
+void print_customer_names()
+{
+    cout << "Customer Names:\n";
+
+    // Loop through all customers and print their names
+    for (int i = 0; i < customers.size(); i++)
+    {
+        cout << customers[i].name << endl;
+    }
+}
+
+// Function to print all details for a specific customer
+void print_customer_details()
+{
+    string name;
+
+    cout << "Enter customer name: ";
+    cin >> name;
+
+    // Loop through all customers and find the one with the matching name
+    for (int i = 0; i < customers.size(); i++)
+    {
+        if (customers[i].name == name)
+        {
+            // Print all details for the customer
+            cout << "Name: " << customers[i].name << endl;
+            cout << "Due amount: " << customers[i].due << endl;
+            cout << "Mobile number: " << customers[i].mobile_number << endl;
+
+            return;
+        }
+    }
+
+    cout << "Customer not found. Try again.\n";
+}
+
+void saveDataToFile(const vector<Customer> &data, const string &filename)
+{
+    ofstream outFile(filename, ios::binary);
+    if (!outFile)
+    {
+        return;
+    }
+    for (const auto &p : data)
+    {
+        outFile.write(reinterpret_cast<const char *>(&p), sizeof(Customer));
+    }
+
+    //outFile.write("", 0);
+    outFile.close();
+}
+
+vector<Customer> retrieveDataFromFile(const string &filename)
+{
+    vector<Customer> data;
+    ifstream inFile(filename, ios::binary);
+    if (!inFile)
+    {
+        return data;
+    }
+    Customer p;
+    while (inFile.read(reinterpret_cast<char *>(&p), sizeof(Customer)))
+    {
+        data.push_back(p);
+    }
+    inFile.close();
+    return data;
+}
+
+int main()
+{
+    customers = retrieveDataFromFile("sdp1.bin");
+
+    int choice;
+
+    // Loop until user chooses to exit
+    while (true)
+    {
+        // Display menu
+        cout << "Business Management System\n";
+        cout << "1. Add Customer\n";
+        cout << "2. Update Payment\n";
+        cout << "3. Show Customer Names\n";
+        cout << "4. Show Customer Details\n";
+        cout << "5. Save & Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        // Call appropriate function based on user choice
+        switch (choice)
+        {
+        case 1:
+            add_customer();
+            break;
+        case 2:
+            update_payment();
+            break;
+        case 3:
+            print_customer_names();
+            break;
+        case 4:
+            print_customer_details();
+            break;
+        case 5:
+        {
+            saveDataToFile(customers, "sdp1.bin");
+
+            cout << "Save & Exiting...\n";
+            return 0;
+        }
+        default:
+            cout << "Invalid choice. Try again.\n";
+        }
+    }
+
+    return 0;
+}
