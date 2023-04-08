@@ -1,8 +1,4 @@
-{
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-  }
-}#include <fstream>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
