@@ -602,8 +602,10 @@ void update_customer_details()
         if(choice == 1)
         {
             cout << "New name: ";
+            
+            fflush(stdin);
 
-            cin >> customers[i].name;
+            getline(cin, customers[i].name);
 
             for(int j =  0; j < customers.size(); j++)
             {
@@ -659,8 +661,10 @@ void update_customer_details()
         else if(choice == 3)
         {
             cout << "New name: ";
+            
+            fflush(stdin);
 
-            cin >> customers[i].name;
+            getline(cin, customers[i].name);
 
             for(int j =  0; j < customers.size(); j++)
             {
