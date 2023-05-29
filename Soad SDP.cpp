@@ -200,9 +200,8 @@ void welcome()
     printf("\n\t\t      =                 MANAGEMENT             =");
     printf("\n\t\t      =                   SYSTEM               =");
     printf("\n\t\t      =                                        =");
-    printf("\n\t\t      =                Developed BY:           =");
-    printf("\n\t\t      =            Soad, Maruf, Ashraful       =");
-    printf("\n\t\t      =               Ayesha, Baidika          =");
+    printf("\n\t\t      =                Developed By:           =");
+    printf("\n\t\t      =                 Soad Mahmud            =");
     printf("\n\t\t      =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
     printf("\n\n\t\t  **-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**\n\n\n");
 
